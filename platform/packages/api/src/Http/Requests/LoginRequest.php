@@ -8,7 +8,6 @@ class LoginRequest extends Request
 {
     public function rules(): array
     {
-        dd('ssasd');
         return [
             'email' => 'required|string|email',
             'password' => 'required|string',
