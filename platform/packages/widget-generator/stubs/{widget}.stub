@@ -1,0 +1,19 @@
+<?php
+
+use Botble\Widget\AbstractWidget;
+
+class {Widget}Widget extends AbstractWidget
+{
+    /**
+     * @var string
+     */
+    protected $widgetDirectory = '{widget}';
+
+    public function __construct()
+    {
+        parent::__construct([
+            'name'        => __('{Widget}'),
+            'description' => __('Widget description'),
+        ]);
+    }
+}

@@ -1,0 +1,33 @@
+<?php
+
+use Theme\{Theme}\Http\Controllers\{Theme}Controller;
+
+// Custom routes
+// You can delete this route group if you don't need to add your custom routes.
+Route::group(['controller' => {Theme}Controller::class, 'middleware' => ['web', 'core']], function () {
+    Route::group(apply_filters(BASE_FILTER_GROUP_PUBLIC_ROUTE, []), function () {
+
+        // Add your custom route here
+        // Ex: Route::get('hello', 'getHello');
+
+    });
+});
+
+Theme::routes();
+
+Route::group(['controller' => {Theme}Controller::class, 'middleware' => ['web', 'core']], function () {
+    Route::group(apply_filters(BASE_FILTER_GROUP_PUBLIC_ROUTE, []), function () {
+
+        Route::get('/', 'getIndex')
+            ->name('public.index');
+
+        Route::get('{key}.{extension}', 'getSiteMapIndex')
+                    ->where('key', '^' . collect(SiteMapManager::getKeys())->map(fn ($item) => '(?:' . $item . ')')->implode('|') . '$')
+                    ->whereIn('extension', SiteMapManager::allowedExtensions())
+                    ->name('public.sitemap.index');
+
+        Route::get('{slug?}' . config('core.base.general.public_single_ending_url'), 'getView')
+            ->name('public.single');
+
+    });
+});
