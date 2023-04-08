@@ -1,9 +1,10 @@
 <?php
 
-namespace Botble\Api\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use ApiHelper;
 use App\Http\Controllers\Controller;
+use Botble\Api\Http\Resources\UserResource;
 use Botble\Base\Http\Responses\BaseHttpResponse;
 use Botble\Api\Http\Requests\LoginRequest;
 use Botble\Api\Http\Requests\RegisterRequest;
@@ -70,7 +71,7 @@ class AuthenticationController extends Controller
 
             $user->email_verify_token = $token;
 
-            $user->sendEmailVerificationNotification();
+//            $user->sendEmailVerificationNotification();
         } else {
             $user->confirmed_at = Carbon::now();
         }
@@ -99,14 +100,16 @@ class AuthenticationController extends Controller
      */
     public function login(LoginRequest $request, BaseHttpResponse $response)
     {
-        dd('asd');
         if (Auth::guard(ApiHelper::guard())->attempt([
             'email' => $request->input('email'),
             'password' => $request->input('password'),
         ])) {
+           ;
             $token = $request->user(ApiHelper::guard())->createToken($request->input('token_name', 'Personal Access Token'));
             return $response
-                ->setData(['token' => $token->plainTextToken]);
+                ->setData([
+                    'token' => $token->plainTextToken
+                ]);
         }
 
         return $response

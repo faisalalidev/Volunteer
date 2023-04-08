@@ -1,0 +1,10 @@
+{
+    "id": "botble/jk",
+    "name": "Jk",
+    "namespace": "Botble\\Jk\\",
+    "provider": "Botble\\Jk\\Providers\\JkServiceProvider",
+    "author": "N/A",
+    "url": "N/A",
+    "version": "1.0",
+    "description": "The description for module jk"
+}

@@ -1,0 +1,10 @@
+{
+    "id": "botble/department",
+    "name": "Department",
+    "namespace": "Botble\\Department\\",
+    "provider": "Botble\\Department\\Providers\\DepartmentServiceProvider",
+    "author": "N/A",
+    "url": "N/A",
+    "version": "1.0",
+    "description": "The description for module department"
+}

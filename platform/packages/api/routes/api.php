@@ -1,8 +1,11 @@
 <?php
+use Botble\Api\Http\Controllers\AuthenticationController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 Route::group([
     'prefix' => 'api/v1',
-    'namespace' => 'Botble\Api\Http\Controllers',
+//    'namespace' => 'Botble\Api\Http\Controllers',
     'middleware' => ['api'],
 ], function () {
     Route::post('register', 'AuthenticationController@register');
