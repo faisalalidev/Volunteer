@@ -82,7 +82,13 @@ class AuthenticationController extends Controller
         }
         $user->save();
         if($user){
-            $QR['qr']= QrCode::generate($user->id);
+            $data = array(
+                'id' => $user->id,
+                'region_id' => $user->region_id,
+                'jk_id' => $user->jk_id,
+                'department_id' => $user->department_id
+            );
+            $QR['qr']= QrCode::generate(json_encode($data));
             Member::where('id',$user->id)->update($QR);
         }
         return $response
