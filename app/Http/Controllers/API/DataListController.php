@@ -16,6 +16,7 @@ use Botble\Region\Models\Region;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -53,5 +54,17 @@ class DataListController extends Controller
             ->setData([
                 'department' => $department
             ]);
+    }
+
+
+    public function checkin(Request $request, BaseHttpResponse $response)
+    {
+        $data = $request->all();
+        $checkin = DB::table('checkin')->insert($data);
+        return $response
+            ->setData([
+                'checkin' => $checkin
+            ]);
+
     }
 }
