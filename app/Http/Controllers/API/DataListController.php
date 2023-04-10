@@ -8,6 +8,7 @@ use Botble\Api\Http\Resources\UserResource;
 use Botble\Base\Http\Responses\BaseHttpResponse;
 use Botble\Api\Http\Requests\LoginRequest;
 use Botble\Api\Http\Requests\RegisterRequest;
+use Botble\Department\Models\Department;
 use Botble\Jk\Models\Jk;
 use Botble\Jk\Repositories\Interfaces\JkInterface;
 use Botble\Jk\Tables\JkTable;
@@ -42,6 +43,15 @@ class DataListController extends Controller
         return $response
             ->setData([
                 'region' => $region
+            ]);
+    }
+
+    public function departmentList(BaseHttpResponse $response)
+    {
+        $department = Department::get();
+        return $response
+            ->setData([
+                'department' => $department
             ]);
     }
 }

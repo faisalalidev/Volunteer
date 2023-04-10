@@ -15,5 +15,6 @@
         Route::put('update/password', 'ProfileController@updatePassword');
         Route::get('jk', 'DataListController@jkList');
         Route::get('region', 'DataListController@regionList');
+        Route::get('department', 'DataListController@departmentList');
     });
 

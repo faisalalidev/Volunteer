@@ -18,6 +18,11 @@ class UserResource extends JsonResource
             'dob' => $this->dob,
             'gender' => $this->gender,
             'description' => $this->description,
+            'region' => $this->region,
+            'department' => $this->department,
+            'jk' => $this->jk,
+            'qr' => $this->qr,
+            'communicator' => $this->communicator,
         ];
     }
 }

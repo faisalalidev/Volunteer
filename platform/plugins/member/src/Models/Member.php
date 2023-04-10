@@ -4,9 +4,12 @@ namespace Botble\Member\Models;
 
 use Botble\Base\Models\BaseModel;
 use Botble\Base\Supports\Avatar;
+use Botble\Department\Models\Department;
+use Botble\Jk\Models\Jk;
 use Botble\Media\Models\MediaFile;
 use Botble\Member\Notifications\ConfirmEmailNotification;
 use Botble\Member\Notifications\ResetPasswordNotification;
+use Botble\Region\Models\Region;
 use Exception;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\MustVerifyEmail;
@@ -49,6 +52,14 @@ class Member extends BaseModel implements
         'phone',
         'description',
         'gender',
+        'region_id',
+        'jk_id',
+        'department_id',
+        'communicator',
+        'qr',
+    ];
+    protected $with = [
+        'region'
     ];
 
     protected $hidden = [
@@ -152,5 +163,18 @@ class Member extends BaseModel implements
                 File::deleteDirectory($folder);
             }
         });
+    }
+
+    public function region()
+    {
+      return $this->belongsTo(Region::class);
+    }
+    public function jk()
+    {
+        return $this->belongsTo(Jk::class);
+    }
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
     }
 }

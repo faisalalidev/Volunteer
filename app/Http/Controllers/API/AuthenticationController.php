@@ -8,11 +8,14 @@ use Botble\Api\Http\Resources\UserResource;
 use Botble\Base\Http\Responses\BaseHttpResponse;
 use Botble\Api\Http\Requests\LoginRequest;
 use Botble\Api\Http\Requests\RegisterRequest;
+use Botble\Member\Models\Member;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Matrix\Decomposition\QR;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class AuthenticationController extends Controller
 {
@@ -56,28 +59,32 @@ class AuthenticationController extends Controller
         $request->merge(['password' => Hash::make($request->input('password'))]);
 
         $request->merge(['name' => $request->input('first_name') . ' ' . $request->input('last_name')]);
-
+        $request['qr']= '';
         $user = ApiHelper::newModel()->create($request->only([
             'first_name',
             'last_name',
             'name',
             'email',
             'phone',
+            'region_id',
+            'jk_id',
+            'department_id',
             'password',
+            'qr',
         ]));
 
         if (ApiHelper::getConfig('verify_email')) {
             $token = Hash::make(Str::random(32));
-
             $user->email_verify_token = $token;
-
-//            $user->sendEmailVerificationNotification();
+//           $user->sendEmailVerificationNotification();
         } else {
             $user->confirmed_at = Carbon::now();
         }
-
         $user->save();
-
+        if($user){
+            $QR['qr']= QrCode::generate($user->id);
+            Member::where('id',$user->id)->update($QR);
+        }
         return $response
             ->setMessage(__('Registered successfully! We emailed you to verify your account!'));
     }
