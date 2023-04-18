@@ -7,6 +7,7 @@
     Route::get('jk', 'DataListController@jkList');
     Route::get('region', 'DataListController@regionList');
     Route::get('department', 'DataListController@departmentList');
+    Route::get('location', 'DataListController@locationtList');
 
     Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('logout', 'AuthenticationController@logout');
@@ -15,5 +16,6 @@
         Route::post('update/avatar', 'ProfileController@updateAvatar');
         Route::put('update/password', 'ProfileController@updatePassword');
         Route::post('checkin', 'DataListController@checkin');
+        Route::get('get-user', 'DataListController@getUser');
     });
 

@@ -59,7 +59,9 @@ class Member extends BaseModel implements
         'qr',
     ];
     protected $with = [
-        'region'
+        'region',
+        'jk',
+        'department'
     ];
 
     protected $hidden = [
