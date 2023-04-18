@@ -43,6 +43,12 @@ class LocationTable extends TableAbstract
                 }
                 return Html::link(route('location.edit', $item->id), BaseHelper::clean($item->name));
             })
+            ->editColumn('jk_id', function ($item) {
+                if (!Auth::user()->hasPermission('location.edit')) {
+                    return BaseHelper::clean($item->jk->name);
+                }
+                return Html::link(route('location.edit', $item->id), BaseHelper::clean($item->jk->name));
+            })
             ->editColumn('checkbox', function ($item) {
                 return $this->getCheckbox($item->id);
             })
@@ -65,6 +71,7 @@ class LocationTable extends TableAbstract
             ->select([
                'id',
                'name',
+               'jk_id',
                'created_at',
                'status',
            ]);
@@ -81,6 +88,10 @@ class LocationTable extends TableAbstract
             ],
             'name' => [
                 'title' => trans('core/base::tables.name'),
+                'class' => 'text-start',
+            ],
+            'jk_id' => [
+                'title' => 'Jk',
                 'class' => 'text-start',
             ],
             'created_at' => [

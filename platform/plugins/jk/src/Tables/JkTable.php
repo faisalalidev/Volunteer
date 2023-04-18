@@ -42,6 +42,11 @@ class JkTable extends TableAbstract
                     return BaseHelper::clean($item->name);
                 }
                 return Html::link(route('jk.edit', $item->id), BaseHelper::clean($item->name));
+            })->editColumn('region_id', function ($item) {
+                if (!Auth::user()->hasPermission('jk.edit')) {
+                    return BaseHelper::clean($item->region->name);
+                }
+                return Html::link(route('jk.edit', $item->id), BaseHelper::clean($item->region->name));
             })
             ->editColumn('checkbox', function ($item) {
                 return $this->getCheckbox($item->id);
@@ -65,6 +70,7 @@ class JkTable extends TableAbstract
             ->select([
                'id',
                'name',
+               'region_id',
                'created_at',
                'status',
            ]);
@@ -81,6 +87,10 @@ class JkTable extends TableAbstract
             ],
             'name' => [
                 'title' => trans('core/base::tables.name'),
+                'class' => 'text-start',
+            ],
+            'region_id' => [
+                'title' => 'Region',
                 'class' => 'text-start',
             ],
             'created_at' => [

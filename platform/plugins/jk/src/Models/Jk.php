@@ -20,9 +20,6 @@ class Jk extends BaseModel
         'status' => BaseStatusEnum::class,
     ];
 
-//    protected $with = [
-//        'region'
-//    ];
     public function region()
     {
         return $this->belongsTo(Region::class);

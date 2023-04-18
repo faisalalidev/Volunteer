@@ -6,6 +6,7 @@ use Botble\Base\Events\BeforeEditContentEvent;
 use Botble\Jk\Http\Requests\JkRequest;
 use Botble\Jk\Repositories\Interfaces\JkInterface;
 use Botble\Base\Http\Controllers\BaseController;
+use Botble\Region\Models\Region;
 use Illuminate\Http\Request;
 use Exception;
 use Botble\Jk\Tables\JkTable;
@@ -35,7 +36,6 @@ class JkController extends BaseController
     public function create(FormBuilder $formBuilder)
     {
         page_title()->setTitle(trans('plugins/jk::jk.create'));
-
         return $formBuilder->create(JkForm::class)->renderForm();
     }
 
