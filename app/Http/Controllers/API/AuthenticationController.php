@@ -148,10 +148,4 @@ class AuthenticationController extends Controller
         return $response
             ->setMessage(__('You have been successfully logged out!'));
     }
-
-    public function logintest()
-    {
-        dd('asd');
-
-    }
 }

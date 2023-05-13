@@ -70,7 +70,18 @@ class DataListController extends Controller
 
     public function checkin(Request $request, BaseHttpResponse $response)
     {
+
         $data = $request->all();
+        $check = DB::table('checkin')->where([
+            'date'=> $request->date,
+            'member_id'=> $request->member_id,
+        ])->count();
+        if($check){
+            return $response
+                ->setData([
+                    'message' => 'User Already Checked In'
+                ]);
+        }
         $checkin = DB::table('checkin')->insert($data);
         return $response
             ->setData([
