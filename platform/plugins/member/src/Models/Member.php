@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -178,5 +179,11 @@ class Member extends BaseModel implements
     public function department()
     {
         return $this->belongsTo(Department::class);
+    }
+
+    public function attendance()
+    {
+        $attendance = DB::table('checkin')->where('member_id',$this->id)->count();
+        return $attendance;
     }
 }

@@ -8,9 +8,11 @@ use Botble\Base\Http\Controllers\BaseController;
 use Botble\Base\Http\Responses\BaseHttpResponse;
 use Botble\Dashboard\Repositories\Interfaces\DashboardWidgetInterface;
 use Botble\Dashboard\Repositories\Interfaces\DashboardWidgetSettingInterface;
+use Botble\Member\Models\Member;
 use Exception;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
+
 
 class DashboardController extends BaseController
 {
@@ -54,8 +56,8 @@ class DashboardController extends BaseController
 
         $statWidgets = collect($widgetData)->where('type', '!=', 'widget')->pluck('view')->all();
         $userWidgets = collect($widgetData)->where('type', 'widget')->pluck('view')->all();
-
-        return view('core/dashboard::list', compact('widgets', 'userWidgets', 'statWidgets'));
+        $member = Member::with('attendance')->get();
+        return view('core/dashboard::list', compact('member'));
     }
 
     public function postEditWidgetSettingItem(Request $request, BaseHttpResponse $response)

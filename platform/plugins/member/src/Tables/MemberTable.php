@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 
 class MemberTable extends TableAbstract
@@ -46,6 +47,13 @@ class MemberTable extends TableAbstract
 
                 return Html::link(route('member.edit', $item->id), BaseHelper::clean($item->name));
             })
+            ->editColumn('total_attendance', function ($item) {
+               $attendace = DB::table('checkin')->where('member_id',$item->id)->count();
+               return $attendace;
+            })
+            ->editColumn('role', function ($item) {
+               return $role = ($item->communicator == 1) ?  'communicator' :  'Member';
+            })
             ->editColumn('checkbox', function ($item) {
                 return $this->getCheckbox($item->id);
             })
@@ -66,6 +74,7 @@ class MemberTable extends TableAbstract
             'avatar_id',
             'first_name',
             'last_name',
+            'communicator',
             'email',
             'created_at',
         ]);
@@ -86,6 +95,14 @@ class MemberTable extends TableAbstract
             ],
             'first_name' => [
                 'title' => trans('core/base::tables.name'),
+                'class' => 'text-start',
+            ],
+            'total_attendance' => [
+                'title' => 'Totla Attendance',
+                'class' => 'text-start',
+            ],
+            'role' => [
+                'title' => 'Role',
                 'class' => 'text-start',
             ],
             'email' => [
