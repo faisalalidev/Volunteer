@@ -56,7 +56,9 @@ class DashboardController extends BaseController
 
         $statWidgets = collect($widgetData)->where('type', '!=', 'widget')->pluck('view')->all();
         $userWidgets = collect($widgetData)->where('type', 'widget')->pluck('view')->all();
-        $member = Member::with('attendance')->get();
+        $member = Member::
+//        with('attendance')->
+            get();
         return view('core/dashboard::list', compact('member'));
     }
 

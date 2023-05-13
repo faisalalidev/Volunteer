@@ -40,9 +40,9 @@
                         <th>
                             {{$m->jk_id}}
                         </th>
-                        <th>
-                            {{$m->attendance}}
-                        </th>
+{{--                        <th>--}}
+{{--                            {{$m->attendance}}--}}
+{{--                        </th>--}}
                     </tr>
                 @endforeach
             @endif
