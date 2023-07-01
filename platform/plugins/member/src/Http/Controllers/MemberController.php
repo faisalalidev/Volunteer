@@ -14,11 +14,13 @@ use Botble\Media\Repositories\Interfaces\MediaFileInterface;
 use Botble\Member\Forms\MemberForm;
 use Botble\Member\Http\Requests\MemberCreateRequest;
 use Botble\Member\Http\Requests\MemberEditRequest;
+use Botble\Member\Models\Member;
 use Botble\Member\Repositories\Interfaces\MemberInterface;
 use Botble\Member\Tables\MemberTable;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class MemberController extends BaseController
 {
@@ -52,15 +54,24 @@ class MemberController extends BaseController
         $member->confirmed_at = Carbon::now();
         $member->password = bcrypt($request->input('password'));
         $member->dob = Carbon::parse($request->input('dob'))->toDateString();
-
+        $member->qr = '';
         if ($request->input('avatar_image')) {
             $image = app(MediaFileInterface::class)->getFirstBy(['url' => $request->input('avatar_image')]);
             if ($image) {
                 $member->avatar_id = $image->id;
             }
         }
-
         $member = $this->memberRepository->createOrUpdate($member);
+        if($member){
+            $data = array(
+                'id' => $member->id,
+                'region_id' => $member->region_id,
+                'jk_id' => $member->jk_id,
+                'department_id' => $member->department_id
+            );
+            $QR['qr']= QrCode::generate(json_encode($data));
+            Member::where('id',$member->id)->update($QR);
+        }
 
         event(new CreatedContentEvent(MEMBER_MODULE_SCREEN_NAME, $request, $member));
 

@@ -5,8 +5,11 @@ namespace Botble\Member\Forms;
 use Assets;
 use BaseHelper;
 use Botble\Base\Forms\FormAbstract;
+use Botble\Department\Models\Department;
+use Botble\Jk\Models\Jk;
 use Botble\Member\Http\Requests\MemberCreateRequest;
 use Botble\Member\Models\Member;
+use Botble\Region\Models\Region;
 use Carbon\Carbon;
 
 class MemberForm extends FormAbstract
@@ -14,7 +17,13 @@ class MemberForm extends FormAbstract
     public function buildForm(): void
     {
         Assets::addScriptsDirectly(['/vendor/core/plugins/member/js/member-admin.js']);
-
+        $region = Region::pluck('name','id');
+        $jk = Jk::pluck('name','id');
+        $department = Department::pluck('name','id');
+        $communicator = [
+            '0' => 'Member',
+            '1' => 'Communicator',
+        ];
         $this
             ->setupModel(new Member())
             ->setValidatorClass(MemberCreateRequest::class)
@@ -56,6 +65,39 @@ class MemberForm extends FormAbstract
                 'label_attr' => ['class' => 'control-label'],
                 'default_value' => BaseHelper::formatDate(Carbon::now()),
             ])
+            ->add('region_id', 'select', [
+                'label' => 'Region',
+                'label_attr' => ['class' => 'control-label required'],
+                'attr' => [
+                    'class' => 'form-control select-full',
+                ],
+                'choices' => $region->toArray(),
+            ])
+            ->add('jk_id', 'select', [
+                'label' => 'JK',
+                'label_attr' => ['class' => 'control-label required'],
+                'attr' => [
+                    'class' => 'form-control select-full',
+                ],
+                'choices' => $jk->toArray(),
+            ])
+            ->add('department_id', 'select', [
+                'label' => 'Department',
+                'label_attr' => ['class' => 'control-label required'],
+                'attr' => [
+                    'class' => 'form-control select-full',
+                ],
+                'choices' => $department->toArray(),
+            ])
+            ->add('communicator', 'select', [
+                'label' => 'communicator',
+                'label_attr' => ['class' => 'control-label required'],
+                'attr' => [
+                    'class' => 'form-control select-full',
+                ],
+                'choices' => $communicator,
+            ])
+
             ->add('description', 'textarea', [
                 'label' => trans('core/base::forms.description'),
                 'label_attr' => ['class' => 'control-label'],
