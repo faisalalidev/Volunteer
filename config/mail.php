@@ -36,11 +36,11 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'host' => env('MAIL_HOST', 'smtp.office365.com'),
-            'port' => env('MAIL_PORT', 587),
+            'host' => env('MAIL_HOST', 'live.smtp.mailtrap.io'),
+            'port' => env('MAIL_PORT', 465),
             'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-            'username' => env('MAIL_USERNAME', 'noreply@ivcentralusa.com'),
-            'password' => env('MAIL_PASSWORD','Test123$%'),
+            'username' => env('MAIL_USERNAME', 'api'),
+            'password' => env('MAIL_PASSWORD','b0257f2698f14a6462f088ca0c9cb0af'),
             'timeout' => null,
             'local_domain' => env('MAIL_EHLO_DOMAIN'),
         ],

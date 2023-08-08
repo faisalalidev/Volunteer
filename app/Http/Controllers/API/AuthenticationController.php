@@ -57,7 +57,6 @@ class AuthenticationController extends Controller
     public function register(RegisterRequest $request, BaseHttpResponse $response)
     {
         $request->merge(['password' => Hash::make($request->input('password'))]);
-
         $request->merge(['name' => $request->input('first_name') . ' ' . $request->input('last_name')]);
         $request['qr']= '';
         $user = ApiHelper::newModel()->create($request->only([
@@ -71,8 +70,9 @@ class AuthenticationController extends Controller
             'department_id',
             'password',
             'qr',
+            'dob',
+            'gender',
         ]));
-
         if (ApiHelper::getConfig('verify_email')) {
             $token = Hash::make(Str::random(32));
             $user->email_verify_token = $token;
